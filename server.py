@@ -24,7 +24,7 @@ def start():
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind(("127.0.0.1", 80))
     while True:
-        server.listen(20)
+        server.listen()
         client_socket, address = server.accept()
         data = client_socket.recv(1024).decode("utf-8")
         client_socket.send(resp(data))
@@ -32,14 +32,16 @@ def start():
 
 def resp(request_data):
     HDRS = "HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=utf8\r\n\r\n"
-    path = request_data.split()[1]
+    #path = request_data.split(" ")[1]
     response = ""
     try:
-        with open("www" + path, "rb") as file:
+        with open("www" + request_data.split(" ")[1], "rb") as file:
             response = file.read()
     except Exception:
         with open("codes" + "/404.html", "rb") as file:
             response = file.read()
+    file.close()
     return HDRS.encode("utf-8") + response
 
-start()
+if __name__ == "__main__":
+    start()
