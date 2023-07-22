@@ -82,7 +82,7 @@ Server = threading.Thread(target = start, daemon = True)
 Server.start()
 logging.info("server is running on :" + port)
 while True:
-    cmd = input("> ")
+    cmd = input()
     match cmd:
         case "stop" | "exit":
             exit()
