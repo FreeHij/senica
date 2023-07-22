@@ -88,5 +88,7 @@ while True:
             exit()
         case "version" | "ver":
             print(version)
+        case "":
+            pass
         case _:
             print("unknown command")
