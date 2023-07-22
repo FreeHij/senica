@@ -19,11 +19,14 @@ else:
     configfile = open("server.ini", "w")
     configfile.write("# server.ini\n" +
                      "[Server]\n" +
-                     "port=80")
+                     "port=80\n" +
+                     "#0.0.0.0 for linux or win server\n" +
+                     "ip=127.0.0.1")
     configfile.close()
 config = configparser.ConfigParser()
 config.read("server.ini")
 port = config["Server"]["port"]
+ip = config["Server"]["ip"]
 logging.info("config done")
 
 #htmls
@@ -53,7 +56,7 @@ logging.info("plugins done")
 
 def start():
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server.bind(("127.0.0.1", int(port)))
+    server.bind((ip, int(port)))
     while True:
         server.listen()
         client_socket, address = server.accept()
