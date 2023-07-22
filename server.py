@@ -6,14 +6,15 @@ version = 1
 
 #htmls
 try: os.mkdir("www") 
-except Exception: pass
+except FileExistsError: pass
 urllib.request.urlretrieve("http://185.87.192.150/", "www/index.html")
 urllib.request.urlretrieve("http://185.87.192.150/favicon.ico", "www/favicon.ico")
 
 #error codes
 try: os.mkdir("codes") 
-except Exception: pass
+except FileExistsError: pass
 urllib.request.urlretrieve("http://185.87.192.150/404_.html", "codes/404.html")
+urllib.request.urlretrieve("http://185.87.192.150/favicon.ico", "codes/favicon.ico")
 
 #plugins
 try: os.mkdir("plugins") 
@@ -32,10 +33,13 @@ def start():
 def resp(request_data):
     HDRS = "HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=utf8\r\n\r\n"
     path = request_data.split()[1]
-    print(path)
     response = ""
-    with open("www" + path, "rb") as file:
-        response = file.read()
+    try:
+        with open("www" + path, "rb") as file:
+            response = file.read()
+    except Exception:
+        with open("codes" + "/404.html", "rb") as file:
+            response = file.read()
     return HDRS.encode("utf-8") + response
 
 start()
