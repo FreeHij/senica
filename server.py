@@ -26,12 +26,14 @@ else:
                      "[Server]\n" +
                      "port=80\n" +
                      "#0.0.0.0 for linux or win server\n" +
-                     "ip=127.0.0.1")
+                     "ip=127.0.0.1\n" +
+                     "connection_count=4")
     configfile.close()
 config = configparser.ConfigParser()
 config.read("server.ini")
 port = config["Server"]["port"]
 ip = config["Server"]["ip"]
+connection_count  = config["Server"]["connection_count"]
 logging.info("config done")
 
 #htmls
@@ -58,6 +60,7 @@ else:
 logging.info("codes done")
 
 #plugins
+#wonder why im even added plugins =D
 checkpath("plugins")
 logging.info("plugins done")
 
@@ -65,7 +68,7 @@ def start():
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind((ip, int(port)))
     while True:
-        server.listen()
+        server.listen(int(connection_count))
         client_socket, address = server.accept()
         data = client_socket.recv(1024).decode("utf-8")
         client_socket.send(resp(data))
