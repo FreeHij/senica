@@ -9,7 +9,7 @@ import os
 version = 1.0
 
 #def
-def path(path):
+def checkpath(path):
     try: os.mkdir(path)
     except FileExistsError: pass
 
@@ -35,26 +35,30 @@ ip = config["Server"]["ip"]
 logging.info("config done")
 
 #htmls
-path("www")
+checkpath("www")
 if os.path.isfile("www/index.html") and os.path.isfile("www/favicon.ico"):
     pass
 else:
-    urllib.request.urlretrieve("http://185.87.192.150/", "www/index.html")
-    urllib.request.urlretrieve("http://185.87.192.150/favicon.ico", "www/favicon.ico")
+    indexfile = open("www/index.html", "w")
+    indexfile.write("<h1>Hello world!</h1>")
+    indexfile.close()
+    #urllib.request.urlretrieve("http://185.87.192.150/favicon.ico", "www/favicon.ico")
 logging.info("www done")
 
 #error codes
-path("codes")
+checkpath("codes")
 if os.path.isfile("codes/404.html") and os.path.isfile("codes/favicon.ico"):
     pass
 else:
-    urllib.request.urlretrieve("http://185.87.192.150/404_.html", "codes/404.html")
-    urllib.request.urlretrieve("http://185.87.192.150/favicon.ico", "codes/favicon.ico")
+    fzffile = open("codes/404.html", "w")
+    fzffile.write("<h1>Oops! Something went wrong...</h1>\n" +
+                  "<p>We seem to be having some technical difficulties. Hang tight.</p>")
+    fzffile.close()
+    #urllib.request.urlretrieve("http://185.87.192.150/favicon.ico", "codes/favicon.ico")
 logging.info("codes done")
 
 #plugins
-try: os.mkdir("plugins") 
-except FileExistsError: pass
+checkpath("plugins")
 logging.info("plugins done")
 
 def start():
@@ -69,7 +73,7 @@ def start():
 
 def resp(request_data):
     response = ""
-    HDRS = "HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=utf8\r\n\r\n"
+    HDRS = "HTTP/1.0 200 OK\r\nContent-Type: text/html; charset=utf8\r\n\r\n"
     try:
         if request_data.split()[1] == "/":
             with open("www" + "/index.html", "rb") as file:
