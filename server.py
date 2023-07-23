@@ -8,8 +8,13 @@ import os
 
 version = 1.0
 
+#def
+def path(path):
+    try: os.mkdir(path)
+    except FileExistsError: pass
+
 #logging setup
-format = "%(asctime)s [%(levelname)s] %(message)s"
+format = "[%(asctime)s] [%(levelname)s] %(message)s"
 logging.basicConfig(format = format, level = logging.DEBUG, datefmt = "%H:%M:%S")
 
 #config
@@ -30,8 +35,7 @@ ip = config["Server"]["ip"]
 logging.info("config done")
 
 #htmls
-try: os.mkdir("www")
-except FileExistsError: pass
+path("www")
 if os.path.isfile("www/index.html") and os.path.isfile("www/favicon.ico"):
     pass
 else:
@@ -40,8 +44,7 @@ else:
 logging.info("www done")
 
 #error codes
-try: os.mkdir("codes") 
-except FileExistsError: pass
+path("codes")
 if os.path.isfile("codes/404.html") and os.path.isfile("codes/favicon.ico"):
     pass
 else:
