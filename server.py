@@ -76,7 +76,7 @@ def start():
 
 def resp(request_data):
     response = ""
-    HDRS = "HTTP/1.0 200 OK\r\nContent-Type: text/html; charset=utf8\r\n\r\n"
+    HDRS = "HTTP/1.0 200 OK\r\n"
     try:
         if request_data.split()[1] == "/":
             with open("www" + "/index.html", "rb") as file:
