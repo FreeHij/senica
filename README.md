@@ -2,4 +2,4 @@
 
 # senica
 
-A super basic http server with someway plugins support
+A super basic http server
